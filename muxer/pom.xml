@@ -2,8 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.mp4parser</groupId>
+    <groupId>org.tallison</groupId>
     <version>1.9.42-SNAPSHOT</version>
+    <parent>
+        <groupId>org.tallison</groupId>
+        <artifactId>mp4parser-project</artifactId>
+        <version>1.9.42-SNAPSHOT</version>
+    </parent>
     <artifactId>muxer</artifactId>
     <name>File Muxer</name>
     <url>https://github.com/sannies/mp4parser</url>
@@ -82,7 +87,7 @@
                 <configuration>
                     <source>8</source>
                     <target>8</target>
-                    <release>8</release>
+<!--                    <release>8</release> -->
                 </configuration>
             </plugin>
             <plugin>
