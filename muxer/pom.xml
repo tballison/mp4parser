@@ -3,13 +3,15 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.tallison</groupId>
-    <version>1.9.42-SNAPSHOT</version>
+    <version>1.9.41.1</version>
+
+    <artifactId>muxer</artifactId>
     <parent>
         <groupId>org.tallison</groupId>
         <artifactId>mp4parser-project</artifactId>
-        <version>1.9.42-SNAPSHOT</version>
+        <version>1.9.41.1</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>muxer</artifactId>
     <name>File Muxer</name>
     <url>https://github.com/sannies/mp4parser</url>
     <description>This package has a focus on file operation. It can read A/V data from Random Access Datasources
@@ -19,9 +21,9 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.mp4parser</groupId>
+            <groupId>org.tallison</groupId>
             <artifactId>isoparser</artifactId>
-            <version>1.9.42-SNAPSHOT</version>
+            <version>1.9.41.1</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

@@ -6,14 +6,15 @@
     <parent>
         <groupId>org.tallison</groupId>
         <artifactId>mp4parser-project</artifactId>
-        <version>1.9.42-SNAPSHOT</version>
+        <version>1.9.41.1</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
     <name>ISO Parser</name>
     <description>A generic parser and writer for all ISO 14496 based files (MP4, Quicktime, DCF, PDCF, ...)
     </description>
     <url>https://github.com/tballison/mp4parser</url>
-    <version>1.9.42-SNAPSHOT</version>
+    <version>1.9.41.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
