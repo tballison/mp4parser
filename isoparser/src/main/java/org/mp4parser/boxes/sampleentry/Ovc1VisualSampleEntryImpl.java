@@ -1,7 +1,7 @@
 package org.mp4parser.boxes.sampleentry;
 
 import org.mp4parser.BoxParser;
-import org.mp4parser.tools.CastUtils;
+import org.mp4parser.tools.MemoryUtils;
 import org.mp4parser.tools.IsoTypeReader;
 import org.mp4parser.tools.IsoTypeWriter;
 
@@ -16,6 +16,7 @@ import java.nio.channels.WritableByteChannel;
  */
 public class Ovc1VisualSampleEntryImpl extends AbstractSampleEntry {
     public static final String TYPE = "ovc1";
+    private static final long MAX_RECORD_SIZE = 1_000_000;
     private byte[] vc1Content = new byte[0];
 
     public Ovc1VisualSampleEntryImpl() {
@@ -32,7 +33,7 @@ public class Ovc1VisualSampleEntryImpl extends AbstractSampleEntry {
 
     @Override
     public void parse(ReadableByteChannel dataSource, ByteBuffer header, long contentSize, BoxParser boxParser) throws IOException {
-        ByteBuffer byteBuffer = ByteBuffer.allocate(CastUtils.l2i(contentSize));
+        ByteBuffer byteBuffer = MemoryUtils.allocateByteBuffer(contentSize, MAX_RECORD_SIZE);
         dataSource.read(byteBuffer);
         ((Buffer)byteBuffer).position(6);
         dataReferenceIndex = IsoTypeReader.readUInt16(byteBuffer);

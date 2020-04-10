@@ -32,6 +32,7 @@ import java.nio.channels.WritableByteChannel;
  */
 @DoNotParseDetail
 public class IsoFile extends BasicContainer implements Closeable {
+    public static volatile long MAX_RECORD_SIZE_OVERRIDE = -1;
     private static Logger LOG = LoggerFactory.getLogger(IsoFile.class);
     private ReadableByteChannel readableByteChannel;
 

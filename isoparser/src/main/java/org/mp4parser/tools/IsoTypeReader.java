@@ -21,7 +21,7 @@ import java.nio.ByteBuffer;
 
 public final class IsoTypeReader {
 
-
+    private static final long MAX_RECORD_LENGTH = 1_000_000;
     public static long readUInt32BE(ByteBuffer bb) {
         long ch1 = readUInt8(bb);
         long ch2 = readUInt8(bb);
@@ -89,7 +89,7 @@ public final class IsoTypeReader {
     }
 
     public static String readString(ByteBuffer byteBuffer, int length) {
-        byte[] buffer = new byte[length];
+        byte[] buffer = MemoryUtils.allocateByteArray(length, MAX_RECORD_LENGTH);
         byteBuffer.get(buffer);
         return Utf8.convert(buffer);
 

@@ -16,6 +16,7 @@
 
 package org.mp4parser.boxes.iso14496.part12;
 
+import org.mp4parser.MemoryAllocationException;
 import org.mp4parser.support.AbstractFullBox;
 import org.mp4parser.tools.CastUtils;
 import org.mp4parser.tools.IsoTypeReader;
@@ -30,7 +31,7 @@ import java.nio.ByteBuffer;
  */
 public class SyncSampleBox extends AbstractFullBox {
     public static final String TYPE = "stss";
-
+    private static final int MAX_RECORDS = 100000;
     private long[] sampleNumber;
 
     public SyncSampleBox() {
@@ -58,7 +59,10 @@ public class SyncSampleBox extends AbstractFullBox {
     public void _parseDetails(ByteBuffer content) {
         parseVersionAndFlags(content);
         int entryCount = CastUtils.l2i(IsoTypeReader.readUInt32(content));
-
+        if (entryCount > MAX_RECORDS) {
+            throw new MemoryAllocationException("Limited to "+MAX_RECORDS+
+                    " but tried to read: "+entryCount);
+        }
         sampleNumber = new long[entryCount];
         for (int i = 0; i < entryCount; i++) {
             sampleNumber[i] = IsoTypeReader.readUInt32(content);
@@ -78,6 +82,10 @@ public class SyncSampleBox extends AbstractFullBox {
     }
 
     public String toString() {
-        return "SyncSampleBox[entryCount=" + sampleNumber.length + "]";
+        if (sampleNumber != null) {
+            return "SyncSampleBox[entryCount=" + sampleNumber.length + "]";
+        } else {
+            return "SyncSampleBox[entryCount=uninitialized]";
+        }
     }
 }

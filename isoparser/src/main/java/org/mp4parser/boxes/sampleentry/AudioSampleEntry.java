@@ -19,7 +19,7 @@ package org.mp4parser.boxes.sampleentry;
 import org.mp4parser.Box;
 import org.mp4parser.BoxParser;
 import org.mp4parser.boxes.iso14496.part12.ProtectionSchemeInformationBox;
-import org.mp4parser.tools.CastUtils;
+import org.mp4parser.tools.MemoryUtils;
 import org.mp4parser.tools.IsoTypeReader;
 import org.mp4parser.tools.IsoTypeWriter;
 
@@ -42,7 +42,7 @@ import java.util.Arrays;
  */
 public final class AudioSampleEntry extends AbstractSampleEntry {
     private static Logger LOG = LoggerFactory.getLogger(AudioSampleEntry.class);
-
+    private static final long MAX_RECORD_SIZE = 1_000_000;
     public static final String TYPE1 = "samr";
     public static final String TYPE2 = "sawb";
     public static final String TYPE3 = "mp4a";
@@ -246,7 +246,7 @@ public final class AudioSampleEntry extends AbstractSampleEntry {
             final long remaining = contentSize - 28
                     - (soundVersion == 1 ? 16 : 0)
                     - (soundVersion == 2 ? 36 : 0);
-            final ByteBuffer owmaSpecifics = ByteBuffer.allocate(CastUtils.l2i(remaining));
+            final ByteBuffer owmaSpecifics = MemoryUtils.allocateByteBuffer(remaining, MAX_RECORD_SIZE);
             dataSource.read(owmaSpecifics);
 
             addBox(new Box() {

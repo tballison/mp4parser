@@ -21,6 +21,7 @@ import org.mp4parser.Container;
 import org.mp4parser.boxes.iso14496.part12.ProtectionSchemeInformationBox;
 import org.mp4parser.tools.IsoTypeReader;
 import org.mp4parser.tools.IsoTypeWriter;
+import org.mp4parser.tools.MemoryUtils;
 import org.mp4parser.tools.Utf8;
 
 import java.io.ByteArrayOutputStream;
@@ -55,6 +56,7 @@ import java.util.Arrays;
  * Format-specific information is appened as boxes after the data described in ISO/IEC 14496-12 chapter 8.16.2.
  */
 public final class VisualSampleEntry extends AbstractSampleEntry implements Container {
+    private static final long MAX_RECORD_LENGTH = 100_000_000;
     public static final String TYPE1 = "mp4v";
     public static final String TYPE2 = "s263";
     public static final String TYPE3 = "avc1";
@@ -177,7 +179,7 @@ public final class VisualSampleEntry extends AbstractSampleEntry implements Cont
             //System.out.println("invalid compressor name displayable data: " + compressornameDisplayAbleData);
             compressornameDisplayAbleData = 31;
         }
-        byte[] bytes = new byte[compressornameDisplayAbleData];
+        byte[] bytes = MemoryUtils.allocateByteArray(compressornameDisplayAbleData, MAX_RECORD_LENGTH);
         content.get(bytes);
         compressorname = Utf8.convert(bytes);
         if (compressornameDisplayAbleData < 31) {

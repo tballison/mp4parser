@@ -20,7 +20,7 @@ import org.mp4parser.BoxParser;
 import org.mp4parser.IsoFile;
 import org.mp4parser.ParsableBox;
 import org.mp4parser.boxes.UserBox;
-import org.mp4parser.tools.Hex;
+import org.mp4parser.tools.MemoryUtils;
 import org.mp4parser.tools.IsoTypeWriter;
 
 import org.slf4j.Logger;
@@ -46,6 +46,8 @@ import static org.mp4parser.tools.CastUtils.l2i;
  */
 public abstract class AbstractBox implements ParsableBox {
     private static Logger LOG = LoggerFactory.getLogger(AbstractBox.class);
+
+    private static final int MAX_RECORD_LENGTH = 536_870_912;//.5 GB
 
     protected String type;
     protected ByteBuffer content;
@@ -94,11 +96,14 @@ public abstract class AbstractBox implements ParsableBox {
      */
     @DoNotParseDetail
     public void parse(ReadableByteChannel dataSource, ByteBuffer header, long contentSize, BoxParser boxParser) throws IOException {
-        content = ByteBuffer.allocate(l2i(contentSize));
 
+        content = MemoryUtils.allocateByteBuffer(contentSize, MAX_RECORD_LENGTH);
         while ((content.position() < contentSize)) {
             if (dataSource.read(content) == -1) {
-                LOG.error("{} might have been truncated by file end. bytesRead={} contentSize={}", this, content.position(), contentSize);
+                LOG.error("{} might have been truncated by file end. bytesRead={} contentSize={}",
+                        this, content.position(), contentSize);
+                //trim the buffer to what was actually read.
+                content.limit(content.position());
                 break;
             }
         }
@@ -211,12 +216,12 @@ public abstract class AbstractBox implements ParsableBox {
             byte v2 = bb.get(j);
             if (v1 != v2) {
                 LOG.error("{}: buffers differ at {}: {}/{}", this.getType(), i, v1, v2);
-                byte[] b1 = new byte[content.remaining()];
-                byte[] b2 = new byte[bb.remaining()];
+                /*byte[] b1 = MemoryUtils.allocateByteArray(content.remaining(), 1000);
+                byte[] b2 = MemoryUtils.allocateByteArray(bb.remaining(), 1000);
                 content.get(b1);
                 bb.get(b2);
                 LOG.error("original      : {}", Hex.encodeHex(b1, 4));
-                LOG.error("reconstructed : {}", Hex.encodeHex(b2, 4));
+                LOG.error("reconstructed : {}", Hex.encodeHex(b2, 4));*/
                 return false;
             }
         }

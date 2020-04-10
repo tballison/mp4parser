@@ -3,9 +3,9 @@ package org.mp4parser.boxes.iso14496.part12;
 
 import org.mp4parser.BoxParser;
 import org.mp4parser.boxes.sampleentry.AbstractSampleEntry;
-import org.mp4parser.tools.CastUtils;
 import org.mp4parser.tools.IsoTypeReader;
 import org.mp4parser.tools.IsoTypeWriter;
+import org.mp4parser.tools.MemoryUtils;
 
 import java.io.IOException;
 import java.nio.Buffer;
@@ -14,6 +14,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 
 public class HintSampleEntry extends AbstractSampleEntry {
+    private final long MAX_RECORD_SIZE = 1_000_000;
     protected byte[] data;
 
     public HintSampleEntry(String type) {
@@ -26,7 +27,7 @@ public class HintSampleEntry extends AbstractSampleEntry {
         dataSource.read(b1);
         ((Buffer)b1).position(6);
         dataReferenceIndex = IsoTypeReader.readUInt16(b1);
-        data = new byte[CastUtils.l2i(contentSize - 8)];
+        data = MemoryUtils.allocateByteArray(contentSize - 8, MAX_RECORD_SIZE);
         dataSource.read(ByteBuffer.wrap(data));
     }
 

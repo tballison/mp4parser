@@ -3,6 +3,7 @@ package org.mp4parser.boxes.iso23009.part1;
 import org.mp4parser.support.AbstractFullBox;
 import org.mp4parser.tools.IsoTypeReader;
 import org.mp4parser.tools.IsoTypeWriter;
+import org.mp4parser.tools.MemoryUtils;
 import org.mp4parser.tools.Utf8;
 
 import java.nio.ByteBuffer;
@@ -12,6 +13,8 @@ import java.nio.ByteBuffer;
  * presentation time.
  */
 public class EventMessageBox extends AbstractFullBox {
+
+    private static final long MAX_RECORD_LENGTH = 1_000_000;
     public static final String TYPE = "emsg";
 
     String schemeIdUri;
@@ -35,7 +38,7 @@ public class EventMessageBox extends AbstractFullBox {
         presentationTimeDelta = IsoTypeReader.readUInt32(content);
         eventDuration = IsoTypeReader.readUInt32(content);
         id = IsoTypeReader.readUInt32(content);
-        messageData = new byte[content.remaining()];
+        messageData = MemoryUtils.allocateByteArray(content.remaining(), MAX_RECORD_LENGTH);
         content.get(messageData);
     }
 

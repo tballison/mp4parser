@@ -18,7 +18,7 @@ package org.mp4parser.boxes.apple;
 import org.mp4parser.Box;
 import org.mp4parser.BoxParser;
 import org.mp4parser.boxes.sampleentry.AbstractSampleEntry;
-import org.mp4parser.tools.CastUtils;
+import org.mp4parser.tools.MemoryUtils;
 import org.mp4parser.tools.IsoTypeReader;
 import org.mp4parser.tools.IsoTypeWriter;
 
@@ -36,7 +36,7 @@ import java.util.List;
 public class QuicktimeTextSampleEntry extends AbstractSampleEntry {
 
     public static final String TYPE = "text";
-
+    private static final long MAX_RECORD_SIZE = 1_000_000;
     int displayFlags;
     int textJustification;
 
@@ -65,7 +65,7 @@ public class QuicktimeTextSampleEntry extends AbstractSampleEntry {
 
     @Override
     public void parse(ReadableByteChannel dataSource, ByteBuffer header, long contentSize, BoxParser boxParser) throws IOException {
-        ByteBuffer content = ByteBuffer.allocate(CastUtils.l2i(contentSize));
+        ByteBuffer content = MemoryUtils.allocateByteBuffer(contentSize, MAX_RECORD_SIZE);
         dataSource.read(content);
         ((Buffer)content).position(6);
         dataReferenceIndex = IsoTypeReader.readUInt16(content);

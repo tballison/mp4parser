@@ -104,8 +104,7 @@ public abstract class AbstractBoxParser implements BoxParser {
         if( skippedTypes != null && skippedTypes.contains(type) ) {
             LOG.trace("Skipping box {} {} {}", type, usertype, parentType);
             parsableBox = new SkipBox(type, usertype, parentType);
-        }
-        else {
+        } else {
             LOG.trace("Creating box {} {} {}", type, usertype, parentType);
             parsableBox = createBox(type, usertype, parentType);
         }

@@ -1,9 +1,11 @@
 package org.mp4parser.boxes.iso23001.part7;
 
+import org.mp4parser.MemoryAllocationException;
 import org.mp4parser.support.AbstractFullBox;
 import org.mp4parser.tools.CastUtils;
 import org.mp4parser.tools.IsoTypeReader;
 import org.mp4parser.tools.IsoTypeWriter;
+import org.mp4parser.tools.MemoryUtils;
 import org.mp4parser.tools.UUIDConverter;
 
 import java.nio.ByteBuffer;
@@ -29,6 +31,8 @@ import java.util.UUID;
  * system.</p>
  */
 public class ProtectionSystemSpecificHeaderBox extends AbstractFullBox {
+    private static final long MAX_RECORD_LENGTH = 1_000_000;
+    private static final int MAX_RECORDS = 100000;
     public static final String TYPE = "pssh";
 
     public static byte[] OMA2_SYSTEM_ID = UUIDConverter.convert(UUID.fromString("A2B55680-6F43-11E0-9A3F-0002A5D5C51B"));
@@ -107,6 +111,9 @@ public class ProtectionSystemSpecificHeaderBox extends AbstractFullBox {
         content.get(systemId);
         if (getVersion() > 0) {
             int count = CastUtils.l2i(IsoTypeReader.readUInt32(content));
+            if (count > MAX_RECORDS) {
+                throw new MemoryAllocationException("Limit on record count reached: "+count);
+            }
             while (count-- > 0) {
                 byte[] k = new byte[16];
                 content.get(k);
@@ -114,7 +121,7 @@ public class ProtectionSystemSpecificHeaderBox extends AbstractFullBox {
             }
         }
         long length = IsoTypeReader.readUInt32(content);
-        this.content = new byte[content.remaining()];
+        this.content = MemoryUtils.allocateByteArray(content.remaining(), MAX_RECORD_LENGTH);
         content.get(this.content);
         assert length == this.content.length;
     }

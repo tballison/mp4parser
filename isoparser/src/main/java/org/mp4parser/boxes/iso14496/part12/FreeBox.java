@@ -20,8 +20,11 @@ package org.mp4parser.boxes.iso14496.part12;
 import org.mp4parser.BoxParser;
 import org.mp4parser.Container;
 import org.mp4parser.ParsableBox;
+import org.mp4parser.tools.MemoryUtils;
 import org.mp4parser.tools.CastUtils;
 import org.mp4parser.tools.IsoTypeWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.Buffer;
@@ -36,6 +39,11 @@ import java.util.List;
  * A free box. Just a placeholder to enable editing without rewriting the whole file.
  */
 public class FreeBox implements ParsableBox {
+
+    private static Logger LOG = LoggerFactory.getLogger(FreeBox.class);
+
+    private static final int MAX_RECORD_SIZE = 1_000_000;
+
     public static final String TYPE = "free";
     ByteBuffer data;
     List<ParsableBox> replacers = new LinkedList<ParsableBox>();
@@ -92,11 +100,16 @@ public class FreeBox implements ParsableBox {
     }
 
     public void parse(ReadableByteChannel dataSource, ByteBuffer header, long contentSize, BoxParser boxParser) throws IOException {
-        data = ByteBuffer.allocate(CastUtils.l2i(contentSize));
+        data = MemoryUtils.allocateByteBuffer(contentSize, MAX_RECORD_SIZE);
 
         int bytesRead = 0;
         int b;
         while (((((b = dataSource.read(data))) + bytesRead) < contentSize)) {
+            if (b < 0) {
+                LOG.warn("EOF? Read {} bytes but should have been able to read: {}",
+                        bytesRead, contentSize);
+                return;
+            }
             bytesRead += b;
         }
     }

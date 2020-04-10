@@ -19,6 +19,7 @@ package org.mp4parser.boxes.microsoft;
 
 import org.mp4parser.support.AbstractBox;
 
+import org.mp4parser.tools.MemoryUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,6 +51,7 @@ import java.util.Vector;
 
 public class XtraBox extends AbstractBox {
     private static Logger LOG = LoggerFactory.getLogger(XtraBox.class);
+    private static long MAX_RECORD_SIZE = 1_000_000;
     public static final String TYPE = "Xtra";
 
     public static final int MP4_XTRA_BT_UNICODE = 8;
@@ -89,7 +91,7 @@ public class XtraBox extends AbstractBox {
     }
 
     private static String readAsciiString(ByteBuffer content, int length) {
-        byte s[] = new byte[length];
+        byte s[] = MemoryUtils.allocateByteArray(length, MAX_RECORD_SIZE);
         content.get(s);
         try {
             return new String(s, "US-ASCII");
@@ -133,6 +135,7 @@ public class XtraBox extends AbstractBox {
 
     }
 
+    @Override
     public String toString() {
         if (!this.isParsed()) {
             this.parseDetails();
@@ -472,7 +475,7 @@ public class XtraBox extends AbstractBox {
                     break;
                 case MP4_XTRA_BT_GUID:
                 default:
-                    nonParsedValue = new byte[length];
+                    nonParsedValue = MemoryUtils.allocateByteArray(length, MAX_RECORD_SIZE);
                     content.get(nonParsedValue);
                     break;
 
