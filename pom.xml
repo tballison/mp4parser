@@ -3,7 +3,7 @@
     <groupId>org.tallison</groupId>
     <artifactId>mp4parser-project</artifactId>
     <packaging>pom</packaging>
-    <version>1.9.41.2</version>
+    <version>1.9.41.3</version>
     <name>MP4 Parser Project</name>
     <!-- fork of
     <url>https://github.com/sannies/mp4parser</url>
@@ -127,7 +127,7 @@
     <scm>
         <url>https://github.com/tballison/mp4parser</url>
         <connection>scm:git:git@github.com:tballison/mp4parser.git</connection>
-        <tag>mp4parser-project-1.9.41.2</tag>
+        <tag>mp4parser-project-1.9.41.3</tag>
     </scm>
 
 </project>
