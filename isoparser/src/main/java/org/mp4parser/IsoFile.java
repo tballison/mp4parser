@@ -106,7 +106,13 @@ public class IsoFile extends BasicContainer implements Closeable {
     }
 
     public void close() throws IOException {
+        for (Box box : getBoxes()) {
+            if (box instanceof Closeable) {
+                ((Closeable) box).close();
+            }
+        }
         this.readableByteChannel.close();
+
     }
 
     @Override
