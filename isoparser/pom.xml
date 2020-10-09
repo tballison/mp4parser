@@ -11,6 +11,9 @@
     <url>https://github.com/tballison/mp4parser</url>
     <version>1.9.41.3</version>
 
+    <!-- note to self on release:
+        mvn deploy -P release-sign-artifacts
+    -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
