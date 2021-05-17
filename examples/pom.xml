@@ -6,28 +6,28 @@
 
     <artifactId>examples</artifactId>
     <name>ISO Parser Examples</name>
-    <version>1.9.41.5</version>
+    <version>1.9.41.6</version>
     <parent>
         <groupId>org.tallison</groupId>
         <artifactId>mp4parser-project</artifactId>
-        <version>1.9.41.5</version>
+        <version>1.9.41.6</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <dependencies>
         <dependency>
             <groupId>org.tallison</groupId>
             <artifactId>isoparser</artifactId>
-            <version>1.9.41.5</version>
+            <version>1.9.41.6</version>
         </dependency>
         <dependency>
             <groupId>org.tallison</groupId>
             <artifactId>muxer</artifactId>
-            <version>1.9.41.5</version>
+            <version>1.9.41.6</version>
         </dependency>
         <dependency>
             <groupId>org.tallison</groupId>
             <artifactId>streaming</artifactId>
-            <version>1.9.41.5</version>
+            <version>1.9.41.6</version>
         </dependency>
         <dependency>
             <groupId>xom</groupId>

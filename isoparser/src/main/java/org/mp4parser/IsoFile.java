@@ -53,6 +53,9 @@ public class IsoFile extends BasicContainer implements Closeable {
         } catch (Exception e) {
             close();
             throw e;
+        } catch (AssertionError e) {
+            close();
+            throw new ParseException(e);
         }
     }
 
