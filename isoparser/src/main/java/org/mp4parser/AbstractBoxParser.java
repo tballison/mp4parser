@@ -21,9 +21,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.EOFException;
+import java.io.File;
 import java.io.IOException;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.util.Arrays;
 import java.util.List;
@@ -87,7 +89,13 @@ public abstract class AbstractBoxParser implements BoxParser {
             size = IsoTypeReader.readUInt64(header.get());
             contentSize = size - 16;
         } else if (size == 0) {
-            throw new RuntimeException("box size of zero means 'till end of file. That is not yet supported");
+            if (byteChannel instanceof FileChannel) {
+                FileChannel fc = (FileChannel) byteChannel;
+                contentSize = fc.size()-fc.position();
+            } else {
+                throw new ParseException("box size of zero means 'till end of file. That is not " +
+                        "yet supported for anything except for file channels");
+            }
         } else {
             contentSize = size - 8;
         }

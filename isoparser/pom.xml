@@ -9,7 +9,7 @@
     <description>A generic parser and writer for all ISO 14496 based files (MP4, Quicktime, DCF, PDCF, ...)
     </description>
     <url>https://github.com/tballison/mp4parser</url>
-    <version>1.9.41.3</version>
+    <version>1.9.41.4</version>
 
     <!-- note to self on release:
         mvn deploy -P release-sign-artifacts
@@ -258,7 +258,7 @@
 
     <scm>
         <url>https://github.com/tballison/mp4parser</url>
-        <tag>mp4parser-project-1.9.41.3</tag>
+        <tag>mp4parser-project-1.9.41.4</tag>
     </scm>
 
     <licenses>

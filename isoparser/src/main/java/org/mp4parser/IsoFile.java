@@ -38,11 +38,21 @@ public class IsoFile extends BasicContainer implements Closeable {
 
 
     public IsoFile(String file) throws IOException {
-        this(new FileInputStream(file).getChannel(), new PropertyBoxParserImpl());
+        this(new File(file));
     }
 
+    /**
+     *
+     * @param file
+     * @throws IOException -- will try to close file channel on exception
+     */
     public IsoFile(File file) throws IOException {
-        this(new FileInputStream(file).getChannel(), new PropertyBoxParserImpl());
+        this.readableByteChannel = new FileInputStream(file).getChannel();
+        try {
+            initContainer(readableByteChannel, file.length(), new PropertyBoxParserImpl());
+        } catch (Exception e) {
+            close();
+        }
     }
 
     /**
@@ -106,12 +116,15 @@ public class IsoFile extends BasicContainer implements Closeable {
     }
 
     public void close() throws IOException {
-        for (Box box : getBoxes()) {
-            if (box instanceof Closeable) {
-                ((Closeable) box).close();
+        try {
+            for (Box box : getBoxes()) {
+                if (box instanceof Closeable) {
+                    ((Closeable) box).close();
+                }
             }
+        } finally {
+            this.readableByteChannel.close();
         }
-        this.readableByteChannel.close();
 
     }
 
