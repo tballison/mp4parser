@@ -3,18 +3,18 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.tallison</groupId>
     <artifactId>streaming</artifactId>
-    <version>1.9.41.4</version>
+    <version>1.9.41.5</version>
     <parent>
         <groupId>org.tallison</groupId>
         <artifactId>mp4parser-project</artifactId>
-        <version>1.9.41.4</version>
+        <version>1.9.41.5</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <dependencies>
         <dependency>
             <groupId>org.tallison</groupId>
             <artifactId>isoparser</artifactId>
-            <version>1.9.41.4</version>
+            <version>1.9.41.5</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -25,7 +25,7 @@
         <dependency>
             <groupId>org.tallison</groupId>
             <artifactId>muxer</artifactId>
-            <version>1.9.41.4</version>
+            <version>1.9.41.5</version>
             <scope>test</scope>
         </dependency>
         <dependency>
