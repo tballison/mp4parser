@@ -52,6 +52,7 @@ public class IsoFile extends BasicContainer implements Closeable {
             initContainer(readableByteChannel, file.length(), new PropertyBoxParserImpl());
         } catch (Exception e) {
             close();
+            throw e;
         }
     }
 
