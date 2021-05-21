@@ -42,7 +42,7 @@ public class FreeBox implements ParsableBox {
 
     private static Logger LOG = LoggerFactory.getLogger(FreeBox.class);
 
-    private static final int MAX_RECORD_SIZE = 1_000_000;
+    private static final int MAX_RECORD_SIZE = 1_500_000;
 
     public static final String TYPE = "free";
     ByteBuffer data;
