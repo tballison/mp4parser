@@ -3,13 +3,13 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.tallison</groupId>
-    <version>1.9.41.6</version>
+    <version>1.9.41.7</version>
 
     <artifactId>muxer</artifactId>
     <parent>
         <groupId>org.tallison</groupId>
         <artifactId>mp4parser-project</artifactId>
-        <version>1.9.41.6</version>
+        <version>1.9.41.7</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <name>File Muxer</name>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>org.tallison</groupId>
             <artifactId>isoparser</artifactId>
-            <version>1.9.41.6</version>
+            <version>1.9.41.7</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
