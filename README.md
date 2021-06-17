@@ -9,6 +9,12 @@ Java MP4 Parser
 
 A Java API to read, write and create MP4 container. Manipulating containers is different from encoding and decoding videos and audio. 
 
+NOTE
+=========
+This is a fork of [sannies' fork of the isoparser](https://github.com/sannies/mp4parser).  This includes a few modifications to attempt to improve
+robustness and security, including avoidance of some infinite loops and out of memory errors.  **After the release of Apache Tika 2.0.0, 
+this fork will no longer be maintained.**
+
 Using the library
 ------------------
 
